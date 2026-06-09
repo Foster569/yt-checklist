@@ -1,1 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Pre-Publish Checklist</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --bg: #ffffff;
+    --bg-2: #f5f5f3;
+    --bg-3: #eeede9;
+    --text: #1a1a18;
+    --text-2: #6b6b67;
+    --text-3: #9b9b96;
+    --border: rgba(0,0,0,0.12);
+    --border-2: rgba(0,0,0,0.22);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --green-bg: #EAF3DE;
+    --green-border: #3B6D11;
+    --green-text: #27500A;
+    --red-bg: #FCEBEB;
+    --red-border: #A32D2D;
+    --red-text: #791F1F;
+    --teal-bg: #E1F5EE;
+    --teal-text: #085041;
+    --coral-bg: #FAECE7;
+    --coral-text: #712B13;
+    --blue: #378ADD;
+    --blue-dark: #185FA5;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1e1e1c;
+      --bg-2: #2a2a27;
+      --bg-3: #333330;
+      --text: #f0efea;
+      --text-2: #a0a09a;
+      --text-3: #6b6b65;
+      --border: rgba(255,255,255,0.1);
+      --border-2: rgba(255,255,255,0.2);
+      --green-bg: #1a2e10;
+      --green-border: #639922;
+      --green-text: #C0DD97;
+      --red-bg: #2e1010;
+      --red-border: #E24B4A;
+      --red-text: #F09595;
+      --teal-bg: #0a2018;
+      --teal-text: #5DCAA5;
+      --coral-bg: #2a1208;
+      --coral-text: #F0997B;
+      --blue: #378ADD;
+      --blue-dark: #85B7EB;
+    }
+  }
+
+  html { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg-2); color: var(--text); font-size: 14px; line-height: 1.5; }
+
+  body { min-height: 100vh; padding: 2rem 1rem 4rem; }
+
+  .container { max-width: 720px; margin: 0 auto; }
+
+  header { margin-bottom: 2rem; }
+  header h1 { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  header p { font-size: 13px; color: var(--text-2); }
+
+  .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin: 1.75rem 0 .6rem; }
+
+  /* Targets bar */
+  .targets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: .5rem; }
+  .target { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; }
+  .target-label { font-size: 11px; color: var(--text-2); margin-bottom: 2px; }
+  .target-val { font-size: 18px; font-weight: 600; color: var(--text); }
+  .target-note { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+
+  /* Dimension rows */
+  .dim-row { display: grid; grid-template-columns: 26px 1fr 120px 48px; align-items: start; gap: 8px 10px; padding: 10px 12px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg); margin-bottom: 5px; transition: border-color .15s; }
+  .dim-row:hover { border-color: var(--border-2); }
+  .dim-num { font-size: 12px; font-weight: 500; color: var(--text-3); padding-top: 2px; }
+  .dim-name { font-weight: 500; color: var(--text); font-size: 13px; margin-bottom: 2px; }
+  .dim-def { font-size: 12px; color: var(--text-2); line-height: 1.4; }
+  .stars { display: flex; gap: 3px; }
+  .star { width: 22px; height: 22px; border-radius: 4px; border: 0.5px solid var(--border-2); background: var(--bg-2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .1s, border-color .1s; }
+  .star::after { content: ''; display: block; width: 8px; height: 8px; border-radius: 2px; background: var(--text-3); }
+  .star.active { background: var(--blue); border-color: var(--blue-dark); }
+  .star.active::after { background: #fff; }
+  .star:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .score-val { font-size: 14px; font-weight: 500; color: var(--text); text-align: right; padding-top: 2px; }
+
+  /* Gate blocks */
+  .gate-block { border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: .75rem; }
+  .gate-hdr { padding: 9px 14px; background: var(--bg-3); font-weight: 500; font-size: 13px; color: var(--text); border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .badge { font-size: 11px; font-weight: 400; padding: 2px 8px; border-radius: var(--radius-sm); }
+  .badge-teal { background: var(--teal-bg); color: var(--teal-text); }
+  .badge-coral { background: var(--coral-bg); color: var(--coral-text); }
+  .gate-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 14px; border-bottom: 0.5px solid var(--border); gap: 12px; }
+  .gate-row:last-child { border-bottom: none; }
+  .gate-q { font-size: 13px; color: var(--text); flex: 1; line-height: 1.4; }
+  .gate-btns { display: flex; gap: 4px; flex-shrink: 0; }
+  .gate-btn { padding: 4px 11px; border-radius: var(--radius-sm); border: 0.5px solid var(--border-2); background: var(--bg-2); font-size: 12px; cursor: pointer; color: var(--text-2); transition: background .1s, color .1s, border-color .1s; }
+  .gate-btn:hover { background: var(--bg-3); }
+  .gate-btn:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+  .gate-btn.pass { background: var(--green-bg); border-color: var(--green-border); color: var(--green-text); }
+  .gate-btn.fail { background: var(--red-bg); border-color: var(--red-border); color: var(--red-text); }
+
+  /* Summary */
+  .summary { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: .5rem; }
+  .stat { background: var(--bg-2); border-radius: var(--radius-md); padding: 10px 12px; }
+  .stat-label { font-size: 11px; color: var(--text-2); margin-bottom: 2px; }
+  .stat-val { font-size: 20px; font-weight: 600; color: var(--text); }
+
+  .verdict-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--bg); margin-top: .5rem; gap: 12px; }
+  .verdict-label { font-size: 12px; color: var(--text-2); margin-bottom: 3px; }
+  .verdict-reason { font-size: 12px; color: var(--text-2); }
+  .verdict { padding: 7px 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 600; white-space: nowrap; }
+  .verdict.go { background: var(--green-bg); color: var(--green-text); border: 1px solid var(--green-border); }
+  .verdict.revise { background: var(--red-bg); color: var(--red-text); border: 1px solid var(--red-border); }
+  .verdict.pending { background: var(--bg-2); color: var(--text-2); border: 0.5px solid var(--border); }
+
+  .reset-btn { display: inline-block; margin-top: 1.25rem; font-size: 12px; color: var(--text-3); cursor: pointer; background: none; border: none; text-decoration: underline; text-underline-offset: 2px; padding: 0; }
+  .reset-btn:hover { color: var(--text-2); }
+
+  /* Progress bar */
+  .progress-wrap { height: 4px; border-radius: 2px; background: var(--bg-3); margin-top: .5rem; overflow: hidden; }
+  .progress-bar { height: 4px; border-radius: 2px; background: var(--blue); transition: width .2s; }
+
+  @media (max-width: 540px) {
+    .dim-row { grid-template-columns: 22px 1fr; grid-template-rows: auto auto; }
+    .stars { grid-column: 1 / -1; }
+    .score-val { grid-column: 1 / -1; text-align: left; }
+    .targets { grid-template-columns: 1fr 1fr; }
+    .gate-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .verdict-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>YouTube pre-publish checklist</h1>
+    <p>Script quality score + SEO/packaging gate + hard rules gate. All three layers must clear before publishing.</p>
+  </header>
+
+  <p class="section-label">Performance targets</p>
+  <div class="targets">
+    <div class="target">
+      <div class="target-label">CTR target</div>
+      <div class="target-val">8–12%</div>
+      <div class="target-note">Title + thumbnail (40:60)</div>
+    </div>
+    <div class="target">
+      <div class="target-label">APV target</div>
+      <div class="target-val">30–32%</div>
+      <div class="target-note">Script + edit quality</div>
+    </div>
+    <div class="target">
+      <div class="target-label">50% drop-off</div>
+      <div class="target-val">&gt; 1:00</div>
+      <div class="target-note">Past the 1 min mark</div>
+    </div>
+  </div>
+
+  <p class="section-label">Script quality — 38 / 50 to pass</p>
+  <div id="dims"></div>
+  <div class="progress-wrap"><div class="progress-bar" id="score-bar" style="width:0%"></div></div>
+
+  <p class="section-label">SEO &amp; packaging gate</p>
+  <div class="gate-block">
+    <div class="gate-hdr">SEO &amp; packaging <span class="badge badge-teal">All must pass</span></div>
+    <div class="gate-row"><span class="gate-q">Title contains the primary keyword the target audience would actually search for — not just a clickbait phrase?</span><div class="gate-btns"><button class="gate-btn" data-g="seo" data-i="0" data-v="pass">Pass</button><button class="gate-btn" data-g="seo" data-i="0" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Thumbnail and title work together — a cold viewer gets the hook without having to read both twice?</span><div class="gate-btns"><button class="gate-btn" data-g="seo" data-i="1" data-v="pass">Pass</button><button class="gate-btn" data-g="seo" data-i="1" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Description covers the topic in plain language — first 2–3 lines readable before "show more"?</span><div class="gate-btns"><button class="gate-btn" data-g="seo" data-i="2" data-v="pass">Pass</button><button class="gate-btn" data-g="seo" data-i="2" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Tags include the exact-match primary keyword plus 3–5 relevant variations?</span><div class="gate-btns"><button class="gate-btn" data-g="seo" data-i="3" data-v="pass">Pass</button><button class="gate-btn" data-g="seo" data-i="3" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Title is optimized for the exact audience — a disinterested viewer would skip it?</span><div class="gate-btns"><button class="gate-btn" data-g="seo" data-i="4" data-v="pass">Pass</button><button class="gate-btn" data-g="seo" data-i="4" data-v="fail">Fail</button></div></div>
+  </div>
+
+  <p class="section-label">Hard rules gate</p>
+  <div class="gate-block">
+    <div class="gate-hdr">Script &amp; production hard rules <span class="badge badge-coral">All must pass</span></div>
+    <div class="gate-row"><span class="gate-q">Quick intro — value delivered within the first 20 seconds?</span><div class="gate-btns"><button class="gate-btn" data-g="hard" data-i="0" data-v="pass">Pass</button><button class="gate-btn" data-g="hard" data-i="0" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Easy to follow — clear to a first-time viewer with no prior context?</span><div class="gate-btns"><button class="gate-btn" data-g="hard" data-i="1" data-v="pass">Pass</button><button class="gate-btn" data-g="hard" data-i="1" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Great details — at least one "wow" fact or unique insight present?</span><div class="gate-btns"><button class="gate-btn" data-g="hard" data-i="2" data-v="pass">Pass</button><button class="gate-btn" data-g="hard" data-i="2" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Good research — every major claim traceable to a source?</span><div class="gate-btns"><button class="gate-btn" data-g="hard" data-i="3" data-v="pass">Pass</button><button class="gate-btn" data-g="hard" data-i="3" data-v="fail">Fail</button></div></div>
+    <div class="gate-row"><span class="gate-q">Editor followed the script — voice and visual match — watched as a viewer and satisfied?</span><div class="gate-btns"><button class="gate-btn" data-g="hard" data-i="4" data-v="pass">Pass</button><button class="gate-btn" data-g="hard" data-i="4" data-v="fail">Fail</button></div></div>
+  </div>
+
+  <div class="summary">
+    <div class="stat"><div class="stat-label">Script score</div><div class="stat-val" id="score-disp">0 / 50</div></div>
+    <div class="stat"><div class="stat-label">Gates cleared</div><div class="stat-val" id="gates-disp">0 / 10</div></div>
+  </div>
+
+  <div class="verdict-row">
+    <div>
+      <div class="verdict-label">Final status</div>
+      <div class="verdict-reason" id="block-reason">Score all dimensions and answer all gates</div>
+    </div>
+    <div id="verdict" class="verdict pending">Not scored</div>
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">Reset checklist</button>
+</div>
+
+<script>
+const DIMS = [
+  { n: '1',  name: 'Hook strength',        def: 'Clear promise, stakes, novelty within 0:00–0:20' },
+  { n: '2',  name: 'Clarity & flow',        def: 'One idea per beat; smooth transitions; no tangents' },
+  { n: '3',  name: 'Curiosity & open loops',def: 'Regular teases and timely payoffs throughout' },
+  { n: '4',  name: 'Pace & density',        def: 'No filler; purposeful compression; sustained momentum' },
+  { n: '5',  name: 'Structure',             def: 'Setup → escalation → payoffs → resolution' },
+  { n: '6',  name: 'Details & research',    def: 'Specific names, dates, $, sources in narration' },
+  { n: '7',  name: 'Voice & tone',          def: 'Documentary-style, conversational authority' },
+  { n: '8',  name: 'Visual thinking',       def: 'Scripted B-roll, montage, or data cues explicit' },
+  { n: '9',  name: 'CTA & end screen',      def: 'Strong hand-off line + tease to next video' },
+  { n: '10', name: 'Brand alignment',       def: 'Consistent POV; fits channel identity' }
+];
+
+const scores = new Array(10).fill(0);
+const gates  = { seo: new Array(5).fill(null), hard: new Array(5).fill(null) };
+
+function renderDims() {
+  document.getElementById('dims').innerHTML = DIMS.map((d, i) => `
+    <div class="dim-row" id="row-${i}">
+      <span class="dim-num">${d.n}</span>
+      <div>
+        <div class="dim-name">${d.name}</div>
+        <div class="dim-def">${d.def}</div>
+      </div>
+      <div class="stars" role="group" aria-label="Score for ${d.name}">
+        ${[1,2,3,4,5].map(v => `<button class="star${scores[i] >= v ? ' active' : ''}" data-dim="${i}" data-val="${v}" onclick="setScore(${i},${v})" aria-label="${v} out of 5"></button>`).join('')}
+      </div>
+      <div class="score-val" id="sv-${i}">${scores[i]}/5</div>
+    </div>`).join('');
+}
+
+function setScore(dim, val) {
+  scores[dim] = scores[dim] === val ? 0 : val;
+  const row = document.getElementById(`row-${dim}`);
+  row.querySelectorAll('.star').forEach((s, j) => s.classList.toggle('active', j < scores[dim]));
+  document.getElementById(`sv-${dim}`).textContent = scores[dim] + '/5';
+  update();
+}
+
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.gate-btn');
+  if (!btn) return;
+  const g = btn.dataset.g, i = parseInt(btn.dataset.i), v = btn.dataset.v;
+  gates[g][i] = gates[g][i] === v ? null : v;
+  btn.closest('.gate-btns').querySelectorAll('.gate-btn').forEach(b => {
+    b.classList.remove('pass', 'fail');
+    if (gates[g][i] === b.dataset.v) b.classList.add(b.dataset.v);
+  });
+  update();
+});
+
+function update() {
+  const total = scores.reduce((a, b) => a + b, 0);
+  const bar = document.getElementById('score-bar');
+  bar.style.width = Math.round(total / 50 * 100) + '%';
+  bar.style.background = total >= 38 ? '#639922' : total >= 25 ? '#BA7517' : '#E24B4A';
+
+  const seoPass  = gates.seo.every(g => g === 'pass');
+  const hardPass = gates.hard.every(g => g === 'pass');
+  const seoDone  = gates.seo.every(g => g !== null);
+  const hardDone = gates.hard.every(g => g !== null);
+  const cleared  = [...gates.seo, ...gates.hard].filter(g => g === 'pass').length;
+
+  document.getElementById('score-disp').textContent = total + ' / 50';
+  document.getElementById('gates-disp').textContent = cleared + ' / 10';
+
+  const v = document.getElementById('verdict');
+  const r = document.getElementById('block-reason');
+
+  if (total === 0 && !seoDone && !hardDone) {
+    v.className = 'verdict pending'; v.textContent = 'Not scored';
+    r.textContent = 'Score all dimensions and answer all gates';
+    return;
+  }
+  if (total >= 38 && seoDone && hardDone && seoPass && hardPass) {
+    v.className = 'verdict go'; v.textContent = 'GO — publish ready';
+    r.textContent = 'All three layers cleared';
+  } else {
+    v.className = 'verdict revise'; v.textContent = 'REVISE';
+    const reasons = [];
+    if (total < 38) reasons.push(`Script ${total}/50 — need 38`);
+    if (seoDone && !seoPass) reasons.push('SEO gate failed');
+    if (hardDone && !hardPass) reasons.push('Hard rules failed');
+    if (!seoDone) reasons.push('SEO gate incomplete');
+    if (!hardDone) reasons.push('Hard rules incomplete');
+    r.textContent = reasons.join(' · ');
+  }
+}
+
+function resetAll() {
+  scores.fill(0);
+  gates.seo.fill(null);
+  gates.hard.fill(null);
+  renderDims();
+  document.querySelectorAll('.gate-btn').forEach(b => b.classList.remove('pass', 'fail'));
+  document.getElementById('score-disp').textContent = '0 / 50';
+  document.getElementById('gates-disp').textContent = '0 / 10';
+  document.getElementById('score-bar').style.width = '0%';
+  const v = document.getElementById('verdict');
+  v.className = 'verdict pending'; v.textContent = 'Not scored';
+  document.getElementById('block-reason').textContent = 'Score all dimensions and answer all gates';
+}
+
+renderDims();
+</script>
+</body>
+</html>
